@@ -69,8 +69,8 @@ class EvaluationTicketWorkflow(Component):
                      for x in evaluations],
                     id=id, name=id)))
                 hints.append(_("The evaluation will be set"))
-        if 'del_evaluation' in operations:
-            hints.append(_("The evaluation will be deleted"))
+        #if 'del_evaluation' in operations:
+        #    hints.append(_("The evaluation will be deleted"))
 
         
         return (this_action['name'], tag(*control), '. '.join(hints) + '.'
