@@ -1,11 +1,12 @@
 from trac.core import *
 from trac.web.api import ITemplateStreamFilter
+from trac.ticket.api import ITicketManipulator
 from genshi.filters.transform import Transformer, StreamBuffer
 
 class EvaluationFieldHider(Component):
-    """Hide evaluation field."""
+    """Hides and protects evaluation field."""
 
-    implements(ITemplateStreamFilter)
+    implements(ITemplateStreamFilter,ITicketManipulator)
     
     # ITemplateStreamFilter methods
     
@@ -16,3 +17,13 @@ class EvaluationFieldHider(Component):
             filter = Transformer('//select[@id="field-evaluation"]')
             stream |= filter.remove()
         return stream
+    
+    # ITicketManipulator methods
+    
+    def prepare_ticket(self, req, ticket, fields, actions):
+        pass
+    
+    def validate_ticket(self, req, ticket):
+        if ticket['evaluation'] != '' and req.args.get('action') != 'evaluate':
+            return [('evaluation', 'field is protected')]
+        return []
