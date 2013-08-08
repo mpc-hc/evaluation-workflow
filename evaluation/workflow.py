@@ -17,9 +17,20 @@ class EvaluationTicketWorkflow(Component):
     {{{
     workflow = ConfigurableTicketWorkflow,EvaluationTicketWorkflow
     }}}
+    
+    You can define new evaluation stages by defining `evaluation.options`
+    in the `[ticket-custom]` section in TracIni. Which should look like:
+    {{{
+    evaluation.options = |need info|reproduced|diagnosed
+    }}}
     """
 
     implements(ITicketActionController)
+    
+    # Set the custom field option defaults
+    Option('ticket-custom', 'evaluation', 'select')
+    Option('ticket-custom', 'evaluation.label', _('Evaluation'))
+    Option('ticket-custom', 'evaluation.options', '|need info|reproduced|diagnosed')
 
     # ITicketActionController methods
 
