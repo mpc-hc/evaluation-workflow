@@ -33,14 +33,7 @@ class EvaluationTicketWorkflow(Component):
         return actions_we_handle
 
     def get_all_status(self):
-        all_status = set()
-        controller = ConfigurableTicketWorkflow(self.env)
-        ouractions = controller.get_actions_by_operation('set_evaluation')
-        for weight, action in ouractions:
-            status = [status for status in
-                      self._get_evaluation_options()]
-            all_status.update(status)
-        return all_status
+        return self._get_evaluation_options()
 
     def render_ticket_action_control(self, req, ticket, action):
         this_action = ConfigurableTicketWorkflow(self.env).actions[action]
