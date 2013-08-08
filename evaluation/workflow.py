@@ -42,7 +42,7 @@ class EvaluationTicketWorkflow(Component):
         this_action = ConfigurableTicketWorkflow(self.env).actions[action]
         status = this_action['newstate']
         operations = this_action['operations']
-        
+
         control = [] # default to nothing
         hints = []
         if 'set_evaluation' in operations:
@@ -72,13 +72,12 @@ class EvaluationTicketWorkflow(Component):
         #if 'del_evaluation' in operations:
         #    hints.append(_("The evaluation will be deleted"))
 
-        
         return (this_action['name'], tag(*control), '. '.join(hints) + '.'
                 if hints else '')
 
     def get_ticket_changes(self, req, ticket, action):
         this_action = ConfigurableTicketWorkflow(self.env).actions[action]
-        
+
         # Enforce permissions
         if not 'TICKET_MODIFY' in req.perm(ticket.resource):
             # The user does not have any of the listed permissions, so we won't
@@ -99,13 +98,14 @@ class EvaluationTicketWorkflow(Component):
                                              action,
                                 this_action.get('set_evaluation', '').strip())
                 updated['evaluation'] = newevaluation
+
         return updated
 
     def apply_action_side_effects(self, req, ticket, action):
         pass
-    
+
     # Internal methods
-    
+
     def _get_evaluation_options(self):
         system = TicketSystem(self.env)
         for field in system.custom_fields:

@@ -7,9 +7,9 @@ class EvaluationFieldHider(Component):
     """Hides and protects evaluation field."""
 
     implements(ITemplateStreamFilter,ITicketManipulator)
-    
+
     # ITemplateStreamFilter methods
-    
+
     def filter_stream(self, req, method, filename, stream, data):
         if filename == 'ticket.html':
             filter = Transformer('//label[@for="field-evaluation"]')
@@ -17,12 +17,12 @@ class EvaluationFieldHider(Component):
             filter = Transformer('//select[@id="field-evaluation"]')
             stream |= filter.remove()
         return stream
-    
+
     # ITicketManipulator methods
-    
+
     def prepare_ticket(self, req, ticket, fields, actions):
         pass
-    
+
     def validate_ticket(self, req, ticket):
         if ticket['evaluation'] != '' and req.args.get('action') != 'evaluate':
             return [('evaluation', 'field is protected')]
