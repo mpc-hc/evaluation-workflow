@@ -24,6 +24,6 @@ class EvaluationFieldHider(Component):
         pass
 
     def validate_ticket(self, req, ticket):
-        if ticket['evaluation'] != '' and req.args.get('action') != 'evaluate':
+        if 'field_evaluation' in req.args:
             return [('evaluation', 'field is protected')]
         return []
