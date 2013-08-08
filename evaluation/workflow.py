@@ -27,8 +27,11 @@ class EvaluationTicketWorkflow(Component):
         actions_we_handle = []
         if 'TICKET_MODIFY' in req.perm(ticket.resource):
             controller = ConfigurableTicketWorkflow(self.env)
-            actions_we_handle = controller.get_actions_by_operation_for_req(
+            actions_we_handle += controller.get_actions_by_operation_for_req(
                 req, ticket, 'set_evaluation')
+            actions_we_handle += controller.get_actions_by_operation_for_req(
+                req, ticket, 'del_evaluation')
+
         self.log.debug('evaluation handles actions: %r' % actions_we_handle)
         return actions_we_handle
 
