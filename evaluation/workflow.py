@@ -47,7 +47,7 @@ class EvaluationTicketWorkflow(Component):
         return actions_we_handle
 
     def get_all_status(self):
-        return self._get_evaluation_options()
+        pass
 
     def render_ticket_action_control(self, req, ticket, action):
         this_action = ConfigurableTicketWorkflow(self.env).actions[action]
