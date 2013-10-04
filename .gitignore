@@ -1,4 +1,4 @@
-build
-dist
-EvaluationWorkflow.egg-info
 *.pyc
+/build
+/dist
+/EvaluationWorkflow.egg-info
