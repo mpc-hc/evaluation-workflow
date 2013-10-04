@@ -5,7 +5,9 @@ from trac.config import Option, ListOption
 from trac.util.translation import _, tag_
 from genshi.builder import tag
 
+
 class EvaluationTicketWorkflow(Component):
+
     """Support for evaluation field.
 
     The action that supports the `set_evaluation` operation will present
@@ -17,7 +19,7 @@ class EvaluationTicketWorkflow(Component):
     {{{
     workflow = ConfigurableTicketWorkflow,EvaluationTicketWorkflow
     }}}
-    
+
     You can define new evaluation stages by defining `evaluation.options`
     in the `[ticket-custom]` section in TracIni. Which should look like:
     {{{
@@ -26,7 +28,7 @@ class EvaluationTicketWorkflow(Component):
     """
 
     implements(ITicketActionController)
-    
+
     # Set the custom field option defaults
     Option('ticket-custom', 'evaluation', 'select')
     Option('ticket-custom', 'evaluation.label', _('Evaluation'))
@@ -54,14 +56,14 @@ class EvaluationTicketWorkflow(Component):
         status = this_action['newstate']
         operations = this_action['operations']
 
-        control = [] # default to nothing
+        control = []  # default to nothing
         hints = []
         if 'set_evaluation' in operations:
             evaluations = self._get_evaluation_options()
             if not evaluations:
-                raise TracError(_("Your workflow attempts to set an evaluation "
-                                  "but none is defined (configuration issue, "
-                                  "please contact your Trac admin)."))
+                raise TracError(_('Your workflow attempts to set an evaluation '
+                                  'but none is defined (configuration issue, '
+                                  'please contact your Trac admin).'))
             id = 'action_%s_evaluate_evaluation' % action
             if len(evaluations) == 1:
                 evaluation = tag.input(type='hidden', id=id, name=id,
@@ -69,19 +71,19 @@ class EvaluationTicketWorkflow(Component):
                 control.append(tag_('as %(evaluation)s',
                                     evaluation=tag(evaluations[0],
                                                    evaluation)))
-                hints.append(_("The evaluation will be set to %(name)s",
+                hints.append(_('The evaluation will be set to %(name)s',
                                name=evaluations[0]))
             else:
                 selected_option = 1
                 control.append(tag_('as %(evaluation)s',
                                     evaluation=tag.select(
-                    [tag.option(x, value=x,
-                                selected=(x == selected_option or None))
-                     for x in evaluations],
-                    id=id, name=id)))
-                hints.append(_("The evaluation will be set"))
+                                        [tag.option(x, value=x,
+                                                    selected=(x == selected_option or None))
+                                            for x in evaluations],
+                                        id=id, name=id)))
+                hints.append(_('The evaluation will be set'))
         #if 'del_evaluation' in operations:
-        #    hints.append(_("The evaluation will be deleted"))
+        #    hints.append(_('The evaluation will be deleted'))
 
         return (this_action['name'], tag(*control), '. '.join(hints) + '.'
                 if hints else '')
@@ -105,9 +107,9 @@ class EvaluationTicketWorkflow(Component):
             if operation == 'del_evaluation':
                 updated['evaluation'] = ''
             elif operation == 'set_evaluation':
-                newevaluation = req.args.get('action_%s_evaluate_evaluation' % \
+                newevaluation = req.args.get('action_%s_evaluate_evaluation' %
                                              action,
-                                this_action.get('set_evaluation', '').strip())
+                                             this_action.get('set_evaluation', '').strip())
                 updated['evaluation'] = newevaluation
 
         return updated

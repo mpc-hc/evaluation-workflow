@@ -3,10 +3,12 @@ from trac.web.api import ITemplateStreamFilter
 from trac.ticket.api import ITicketManipulator
 from genshi.filters.transform import Transformer, StreamBuffer
 
+
 class EvaluationFieldHider(Component):
+
     """Hides and protects evaluation field."""
 
-    implements(ITemplateStreamFilter,ITicketManipulator)
+    implements(ITemplateStreamFilter, ITicketManipulator)
 
     # ITemplateStreamFilter methods
 
